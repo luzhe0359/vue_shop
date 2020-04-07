@@ -58,6 +58,7 @@ export default {
     }
   },
   async created () {
+    // 获取侧边导航
     var { data: res } = await this.$http.get('menus')
     console.log(res)
     this.menusList = res.data
