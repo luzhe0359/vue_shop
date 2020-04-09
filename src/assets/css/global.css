@@ -1,5 +1,13 @@
+body{
+  font-family: tahoma, arial, 'Hiragino Sans GB', '\5b8b\4f53', sans-serif;
+}
 html, body , #app{
   height: 100%;
   margin: 0;
   padding: 0;
+}
+
+/* 卡片 边框 */
+.el-card {
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1) !important
 }
