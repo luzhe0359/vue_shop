@@ -42,7 +42,7 @@
             <el-button type="primary" icon="el-icon-edit" size="mini" @click="showEditDialog(scope.row.id)">编辑</el-button>
             <el-button type="danger" icon="el-icon-delete" size="mini" @click="delUserInfo(scope.row.id)">删除</el-button>
             <el-tooltip effect="dark" content="分配角色" placement="top" :enterable="false">
-              <el-button type="warning" icon="el-icon-setting" size="mini" @click="showRoleDialog(scope.row.id)">分配</el-button>
+              <el-button type="warning" icon="el-icon-setting" size="mini" @click="showRoleDialog(scope.row)">分配</el-button>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -94,11 +94,20 @@
     </el-dialog>
 
     <!-- 分配角色 -->
-    <el-dialog title="用户角色分配" :visible.sync="roleDialogVisible" width="50%">
-
+    <el-dialog title="分配角色" :visible.sync="roleDialogVisible" width="50%">
+      <div>
+        <p>当前用户: {{userInfo.username}}</p>
+        <p>当前角色: {{userInfo.role_name}}</p>
+        <p>分配新角色:
+          <el-select v-model="roleVlaue" placeholder="请选择">
+            <el-option v-for="item in roleList" :key="item.id" :label="item.roleName" :value="item.id">
+            </el-option>
+          </el-select>
+        </p>
+      </div>
       <div slot="footer" class="dialog-footer">
         <el-button @click="roleDialogVisible = false">取 消</el-button>
-        <el-button type="primary">确 定</el-button>
+        <el-button type="primary" @click="allotRole">确 定</el-button>
       </div>
     </el-dialog>
 
@@ -167,7 +176,13 @@ export default {
         ]
       },
       // 控制 角色分配 lialog 隐藏/显示
-      roleDialogVisible: false
+      roleDialogVisible: false,
+      // 用户分配角色
+      userInfo: {},
+      // 所有角色列表
+      roleList: [],
+      // 当前选中的 角色value
+      roleVlaue: ''
     }
   },
   created () {
@@ -267,8 +282,24 @@ export default {
       this.getUserList()
     },
     // 展示 分配角色
-    showRoleDialog (id) {
+    async showRoleDialog (userInfo) {
+      this.userInfo = userInfo
+      // 获取所有角色列表
+      var { data: res } = await this.$http.get('roles')
+      if (res.meta.status !== 200) return this.$message.error(res.meta.msg)
+
+      this.roleList = res.data
       this.roleDialogVisible = true
+    },
+    // 分配角色 确定
+    async allotRole () {
+      console.log(this.userInfo)
+
+      var { data: res } = await this.$http.put(`users/${this.userInfo.id}/role`, { rid: this.roleVlaue })
+      if (res.meta.status !== 200) return this.$message.error(res.meta.msg)
+      this.$message.success(res.meta.msg)
+      this.roleDialogVisible = false
+      this.getUserList()
     }
   }
 }
