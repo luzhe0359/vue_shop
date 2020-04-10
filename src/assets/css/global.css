@@ -5,9 +5,22 @@ html, body , #app{
   height: 100%;
   margin: 0;
   padding: 0;
+  min-width: 1366px;
 }
 
+/* 面包屑 */
+.el-breadcrumb{
+  margin-bottom: 15px;
+}
 /* 卡片 边框 */
 .el-card {
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1) !important
+  box-shadow: 0 1 1px rgba(0, 0, 0, 0.15) !important
+}
+/* 表格 */
+.el-table {
+  margin-top: 15px;
+}
+/* 页码顶部 */
+.el-pagination {
+  margin-top: 15px;
 }

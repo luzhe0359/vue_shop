@@ -13,7 +13,9 @@ const router = new VueRouter({
       redirect: '/welcome',
       children: [
         { path: '/welcome', component: () => import('@/views/Welcome.vue') },
-        { path: '/users', component: () => import('@/views/user/Users.vue') }
+        { path: '/users', component: () => import('@/views/user/Users.vue') },
+        { path: '/rights', component: () => import('@/views/power/Rights.vue') },
+        { path: '/roles', component: () => import('@/views/power/Roles.vue') }
       ]
     }
   ]
