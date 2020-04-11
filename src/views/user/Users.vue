@@ -88,13 +88,13 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="addDialogVisible = false">取 消</el-button>
+        <el-button @click="editDialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="editUserInfo">确 定</el-button>
       </div>
     </el-dialog>
 
     <!-- 分配角色 -->
-    <el-dialog title="分配角色" :visible.sync="roleDialogVisible" width="50%">
+    <el-dialog title="分配角色" :visible.sync="roleDialogVisible" @close="roleDialogClosed" width="50%">
       <div>
         <p>当前用户: {{userInfo.username}}</p>
         <p>当前角色: {{userInfo.role_name}}</p>
@@ -224,7 +224,7 @@ export default {
     // 添加用户信息
     addUserInfo () {
       this.$refs.addFormRef.validate(async valid => {
-        if (!valid) return
+        if (!valid) return this.$message.warning('请先填写用户信息')
         var { data: res } = await this.$http.post('users', this.addForm)
 
         // 判断是否添加成功
@@ -293,13 +293,18 @@ export default {
     },
     // 分配角色 确定
     async allotRole () {
-      console.log(this.userInfo)
-
+      // 判断是否 选择角色
+      if (!this.roleVlaue) return this.$message.error('请先选择角色')
       var { data: res } = await this.$http.put(`users/${this.userInfo.id}/role`, { rid: this.roleVlaue })
       if (res.meta.status !== 200) return this.$message.error(res.meta.msg)
       this.$message.success(res.meta.msg)
+      // 关闭 分配权限 dialog
       this.roleDialogVisible = false
       this.getUserList()
+    },
+    roleDialogClosed () {
+      // 重置 当前选中的角色
+      this.roleVlaue = ''
     }
   }
 }

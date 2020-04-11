@@ -3,7 +3,7 @@
     <!-- 头部 -->
     <el-header>
       <div>
-        <img src="../assets/heima.png" alt="">
+        <img src="../assets/logo.jpg" alt="">
         <span>电商后台管理系统</span>
       </div>
       <el-button type="info" @click="logout">退出</el-button>
@@ -69,6 +69,11 @@ export default {
       window.sessionStorage.clear()
       this.$router.push('/login')
     }
+  },
+  watch: {
+    $route () {
+      console.log(this.$route)
+    }
   }
 }
 </script>
@@ -88,6 +93,10 @@ export default {
   > div {
     display: flex;
     align-items: center;
+    img {
+      width: 200px;
+      height: auto;
+    }
     span {
       margin-left: 15px;
     }

@@ -42,7 +42,6 @@ export default {
       var { data: res } = await this.$http.get('rights/list')
       // 判断 权限列表是否获取成功
       if (res.meta.status !== 200) return this.$message.error(res.meta.msg)
-      this.$message.success(res.meta.msg)
       // 成功后 渲染表格
       this.rightList = res.data
     }
