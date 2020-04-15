@@ -1,10 +1,24 @@
 <template>
   <div id="categories">
-    <div>面包屑封装</div>
-    <el-breadcrumb class="breadcrumb-container" separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item v-for="item in levelList" :key="item.path" :to="item.path">{{item.meta.title}}</el-breadcrumb-item>
+    <!-- 面包屑 -->
+    <el-breadcrumb separator-class="el-icon-arrow-right">
+      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item>商品管理</el-breadcrumb-item>
+      <el-breadcrumb-item>商品分类</el-breadcrumb-item>
     </el-breadcrumb>
+    <!-- 卡片 -->
+    <el-card>
+      <!-- 添加分类 -->
+      <el-row>
+        <el-col>
+          <el-button type="primary">添加分类</el-button>
+        </el-col>
+      </el-row>
+      <!-- 树形表格-->
+      <tree-table ref="treeTableRef" :data="cateList" :columns="columns">
 
+      </tree-table>
+    </el-card>
   </div>
 </template>
 
@@ -12,27 +26,33 @@
 export default {
   data () {
     return {
-
-    }
-  },
-  watch: {
-    $route () {
-      this.getBreadcrumb()
+      cateList: [],
+      // 查询条件
+      cateParams: {
+        type: 3,
+        pagesize: 5,
+        pagenum: 1
+      },
+      columns: [
+        {
+          label: '分类名称',
+          prop: 'cat_name'
+          // width: '400px'
+        }
+      ]
     }
   },
   created () {
-    this.getBreadcrumb()
+    this.getCateList()
   },
   methods: {
-    getBreadcrumb () {
-      console.log(this.$route)
-      let matched = this.$route.matched.filter(item => item.name)
-      console.log(matched)
-      const first = matched[0]
-      if (first && first.name.trim().toLocaleLowerCase() !== 'Dashboard'.toLocaleLowerCase()) {
-        matched = [{ path: '/dashboard', meta: { title: 'dashboard' } }].concat(matched)
-      }
-      this.levelList = matched
+    // 获取分类列表
+    async getCateList () {
+      var { data: res } = await this.$http.get('categories', { params: this.cateParams })
+      if (res.meta.status !== 200) return this.$message.error(res.data.msg)
+      console.log(res)
+      // 数据列表赋值
+      this.cateList = res.data.result
     }
   }
 }

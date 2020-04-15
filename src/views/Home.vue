@@ -69,11 +69,6 @@ export default {
       window.sessionStorage.clear()
       this.$router.push('/login')
     }
-  },
-  watch: {
-    $route () {
-      console.log(this.$route)
-    }
   }
 }
 </script>
