@@ -15,8 +15,19 @@
         </el-col>
       </el-row>
       <!-- 树形表格-->
-      <tree-table ref="treeTableRef" :data="cateList" :columns="columns">
+      <tree-table class="tree-table" ref="treeTableRef" :data="cateList" :columns="columns" border :selection-type="false" :expand-type="false" show-index index-text="#">
+        <!-- 是否有效 -->
+        <template slot="isok" scope="scope">
+          <i v-if="!scope.row.cat_deleted" class="el-icon-success" style="color:#67C23A;font-size:16px;"></i>
+          <i v-else class="el-icon-error" style="color:red;font-size:16px;"></i>
+        </template>
+        <!-- 排序 -->
+        <template slot="order" scope="scope">
+          <el-tag v-if="scope.row.cat_level === 0" type="success">{{scope.row.cat_name}}</el-tag>
+          <el-tag v-if="scope.row.cat_level === 1" type="warning">{{scope.row.cat_name}}</el-tag>
+          <el-tag v-else type="success">{{scope.row.cat_name}}</el-tag>
 
+        </template>
       </tree-table>
     </el-card>
   </div>
@@ -37,7 +48,18 @@ export default {
         {
           label: '分类名称',
           prop: 'cat_name'
-          // width: '400px'
+        },
+        {
+          label: '是否有效',
+          prop: 'cat_deleted',
+          type: 'template',
+          template: 'isok'
+        },
+        {
+          label: '排序',
+          prop: 'cat_level',
+          type: 'template',
+          template: 'order'
         }
       ]
     }
@@ -59,4 +81,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.tree-table {
+  margin: 15px 0;
+}
 </style>
