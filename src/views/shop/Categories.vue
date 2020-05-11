@@ -43,12 +43,12 @@
             <el-input v-model="addCateForm.cat_name"></el-input>
           </el-form-item>
           <el-form-item label="父级分类">
-            <el-cascader v-model="selectValue" :options="parentCateList" :props="selectProps" @change="handleChange" clearable></el-cascader>
+            <el-cascader v-model="selectValue" ref="cascaderRef" :options="parentCateList" :props="selectProps" @change="handleChange" clearable></el-cascader>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="addCateDialogVisible = false">取 消</el-button>
-          <el-button type="primary">确 定</el-button>
+          <el-button type="primary" @click="addCate">确 定</el-button>
         </div>
       </el-dialog>
     </el-card>
@@ -116,7 +116,8 @@ export default {
         expandTrigger: 'hover',
         value: 'cat_id',
         label: 'cat_name',
-        children: 'children'
+        children: 'children',
+        checkStrictly: true
       },
       // 级联选择器 选中的 父级ID数组
       selectValue: []
@@ -124,6 +125,13 @@ export default {
   },
   created () {
     this.getCateList()
+  },
+  watch: {
+    selectValue () {
+      if (this.$refs.cascaderRef) {
+        this.$refs.cascaderRef.dropDownVisible = false // 监听值发生变化就关闭它
+      }
+    }
   },
   methods: {
     // 获取分类列表
@@ -160,14 +168,34 @@ export default {
       const { data: res } = await this.$http.get('categories', { params: { type: 2 } })
       if (res.meta.status !== 200) return this.$message.error(res.data.msg)
       // 数据列表赋值
-      console.log('re')
-      console.log(res)
+
       this.parentCateList = res.data
     },
     // 级联选择器 改变
     handleChange (value) {
       console.log(value)
       console.log(this.selectValue)
+    },
+    // 添加分类提交
+    addCate () {
+      this.$refs.addCateFormRef.validate(async (valid) => {
+        if (!valid) return
+        this.addCateForm.cat_pid = this.selectValue[this.selectValue.length - 1]
+        this.addCateForm.cat_level = this.selectValue.length
+
+        var { data: res } = await this.$http.post('categories', this.addCateForm)
+        console.log(res)
+        if (res.meta.status !== 201) return this.$message.error(res.meta.msg)
+
+        this.$message.success(res.meta.msg)
+        // 关闭 dialog 对话框
+        this.addCateDialogVisible = false
+        // 刷新列表
+        this.getCateList()
+        this.selectValue = []
+        this.addCateForm.cat_pid = 0
+        this.addCateForm.cat_level = 0
+      })
     }
   }
 }
@@ -176,5 +204,9 @@ export default {
 <style lang="less" scoped>
 .tree-table {
   margin: 15px 0;
+}
+
+.el-cascader {
+  width: 100%;
 }
 </style>

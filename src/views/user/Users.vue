@@ -12,7 +12,7 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-input placeholder="请输入搜索内容" v-model="queryInfo.query" width='180px' :span="8" clearable @clear="getUserList">
-            <el-button slot="append" icon="el-icon-search" @click="getUserList"></el-button>
+            <el-button slot="append" icon="el-icon-search" @click="searchUserList"></el-button>
           </el-input>
         </el-col>
         <el-col :span="4">
@@ -197,6 +197,10 @@ export default {
       this.userList = res.data.users
       // 用户总数赋值
       this.total = res.data.total
+    },
+    searchUserList () {
+      this.queryInfo.pagenum = 1
+      this.getUserList()
     },
     // 每页条数改变时，触发
     pageSizeChanged (size) {

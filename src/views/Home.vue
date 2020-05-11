@@ -3,7 +3,7 @@
     <!-- 头部 -->
     <el-header>
       <div>
-        <img src="../assets/logo.jpg" alt="">
+        <img src="../assets/996.jpg" alt="">
         <span>电商后台管理系统</span>
       </div>
       <el-button type="info" @click="logout">退出</el-button>
@@ -89,8 +89,8 @@ export default {
     display: flex;
     align-items: center;
     img {
-      width: 200px;
-      height: auto;
+      width: auto;
+      height: 60px;
     }
     span {
       margin-left: 15px;

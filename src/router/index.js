@@ -16,7 +16,8 @@ const router = new VueRouter({
         { path: '/users', component: () => import('@/views/user/Users.vue') },
         { path: '/rights', component: () => import('@/views/power/Rights.vue') },
         { path: '/roles', component: () => import('@/views/power/Roles.vue') },
-        { path: '/categories', name: '商品分类', component: () => import('@/views/shop/Categories.vue') }
+        { path: '/categories', name: '商品分类', component: () => import('@/views/shop/Categories.vue') },
+        { path: '/params', name: '分类参数', component: () => import('@/views/shop/Params.vue') }
       ]
     }
   ]
