@@ -190,6 +190,7 @@ export default {
 
       this.rightsList = res.data
       // 递归获取三级节点id
+      console.log(role)
       this.getDefKeys(role, this.defKeys)
       this.setRightDialogVisible = true
     },
