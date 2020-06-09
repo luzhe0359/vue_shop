@@ -17,12 +17,12 @@
       <!-- 树形表格-->
       <tree-table class="tree-table" ref="treeTableRef" :data="cateList" :columns="columns" border :selection-type="false" :expand-type="false" show-index index-text="#">
         <!-- 是否有效 -->
-        <template slot="isok" scope="scope">
+        <template slot="isok" slot-scope="scope">
           <i v-if="!scope.row.cat_deleted" class="el-icon-success" style="color:#67C23A;font-size:16px;"></i>
           <i v-else class="el-icon-error" style="color:red;font-size:16px;"></i>
         </template>
         <!-- 排序 -->
-        <template slot="order" scope="scope">
+        <template slot="order" slot-scope="scope">
           <el-tag v-if="scope.row.cat_level === 0">{{scope.row.cat_name}}</el-tag>
           <el-tag v-if="scope.row.cat_level === 1" type="success">{{scope.row.cat_name}}</el-tag>
           <el-tag v-if="scope.row.cat_level === 2" type="warning">{{scope.row.cat_name}}</el-tag>

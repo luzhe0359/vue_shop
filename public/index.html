@@ -6,7 +6,26 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-  <title><%= htmlWebpackPlugin.options.title %></title>
+  <title><%= htmlWebpackPlugin.options.isProd ? '':'dev - ' %>电商后台管理系统</title>
+
+  <% if(htmlWebpackPlugin.options.isProd){ %>
+  <link href="https://cdn.bootcdn.net/ajax/libs/element-ui/2.4.5/theme-chalk/index.css" rel="stylesheet">
+  <link href="https://cdn.bootcdn.net/ajax/libs/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+
+  <!-- vue -->
+  <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.1/vue.min.js"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/vue-router/3.1.6/vue-router.min.js"></script>
+  <!-- axios -->
+  <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.19.2/axios.min.js"></script>
+  <!-- echarts -->
+  <script src="https://cdn.bootcdn.net/ajax/libs/echarts/4.8.0/echarts.min.js"></script>
+  <!-- nprogress -->
+  <script src="https://cdn.bootcdn.net/ajax/libs/nprogress/0.2.0/nprogress.min.js"></script>
+  <!-- lodash -->
+  <script src="https://cdn.bootcdn.net/ajax/libs/lodash.js/4.17.15/lodash.min.js"></script>
+  <!-- element-ui -->
+  <script src="https://cdn.bootcdn.net/ajax/libs/element-ui/2.4.5/locale/zh-CN.min.js"></script>
+  <% }%>
 </head>
 
 <body>
