@@ -6,19 +6,19 @@ Vue.use(VueRouter)
 const router = new VueRouter({
   routes: [
     { path: '/', redirect: '/welcome' },
-    { path: '/login', component: () => import('@/views/Login.vue') },
+    { path: '/login', component: () => import(/* webpackChunkName:"login_home_welcome" */ '@/views/Login.vue') },
     {
       path: '/home',
-      component: () => import('@/views/Home.vue'),
+      component: () => import(/* webpackChunkName:"login_home_welcome" */ '@/views/Home.vue'),
       redirect: '/welcome',
       children: [
-        { path: '/welcome', component: () => import('@/views/Welcome.vue') },
-        { path: '/users', component: () => import('@/views/user/Users.vue') },
-        { path: '/rights', component: () => import('@/views/power/Rights.vue') },
-        { path: '/roles', component: () => import('@/views/power/Roles.vue') },
-        { path: '/categories', name: '商品分类', component: () => import('@/views/shop/Categories.vue') },
-        { path: '/params', name: '分类参数', component: () => import('@/views/shop/Params.vue') },
-        { path: '/reports', name: '统计报表', component: () => import('@/views/stats/Reports.vue') }
+        { path: '/welcome', component: () => import(/* webpackChunkName:"login_home_welcome" */ '@/views/Welcome.vue') },
+        { path: '/users', component: () => import(/* webpackChunkName:"user_rights_roles" */ '@/views/user/Users.vue') },
+        { path: '/rights', component: () => import(/* webpackChunkName:"user_rights_roles" */ '@/views/power/Rights.vue') },
+        { path: '/roles', component: () => import(/* webpackChunkName:"user_rights_roles" */ '@/views/power/Roles.vue') },
+        { path: '/categories', name: '商品分类', component: () => import(/* webpackChunkName:"categories_params" */ '@/views/shop/Categories.vue') },
+        { path: '/params', name: '分类参数', component: () => import(/* webpackChunkName:"categories_params" */ '@/views/shop/Params.vue') },
+        { path: '/reports', name: '统计报表', component: () => import(/* webpackChunkName:"reports" */ '@/views/stats/Reports.vue') }
       ]
     }
   ]
